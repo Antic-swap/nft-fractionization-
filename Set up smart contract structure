@@ -1,0 +1,24 @@
+pragma solidity ^0.8.0;
+
+contract FractionalNFT {
+    uint256 public totalSupply;
+    mapping (uint256 => uint256) public balanceOf;
+    mapping (uint256 => uint256) public tokenOfOwnerByIndex;
+
+    constructor() public {
+        totalSupply = 0;
+    }
+
+    function mint(uint256 _tokenId) public {
+        balanceOf[msg.sender] = balanceOf[msg.sender].add(1);
+        tokenOfOwnerByIndex[balanceOf[msg.sender]] = _tokenId;
+        totalSupply = totalSupply.add(1);
+    }
+
+    function transfer(address _to, uint256 _tokenId) public {
+        require(balanceOf[msg.sender] > 0, "Sender has no tokens to transfer");
+        balanceOf[msg.sender] = balanceOf[msg.sender].sub(1);
+        balanceOf[_to] = balanceOf[_to].add(1);
+        tokenOfOwnerByIndex[balanceOf[_to]] = _tokenId;
+    }
+}
