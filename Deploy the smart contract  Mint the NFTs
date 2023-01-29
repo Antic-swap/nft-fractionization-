@@ -1,0 +1,3 @@
+function mint(uint256 _tokenId) public {
+    FractionalNFT.mint(_tokenId);
+}
