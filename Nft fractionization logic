@@ -1,0 +1,18 @@
+contract FractionalNFT is ERC721 {
+    mapping (uint256 => uint256) public fractionOf;
+
+    function fractionalize(uint256 _tokenId, uint256 _fractionAmount) public {
+        require(balanceOf[msg.sender] > 0, "Sender has no tokens to fractionalize");
+        require(fractionOf[_tokenId] == 0, "Token is already fractionalized");
+        fractionOf[_tokenId] = _fractionAmount;
+    }
+
+    function transferFraction(address _to, uint256 _tokenId, uint256 _fractionId) public {
+        require(fractionOf[_tokenId] > 0, "Token is not fractionalized");
+        require(_fractionId <= fractionOf[_tokenId], "Invalid fraction id");
+        balanceOf[msg.sender] = balanceOf[msg.sender].sub(1);
+        balanceOf[_to] = balanceOf[_to].add(1);
+        fractionOf[_tokenId] = fractionOf[_tokenId].sub(1);
+        tokenOfOwnerByIndex[balanceOf[_to]] = _tokenId;
+    }
+}
