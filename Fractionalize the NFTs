@@ -1,0 +1,3 @@
+function fractionalize(uint256 _tokenId, uint256 _fractionAmount) public {
+    FractionalNFT.fractionalize(_tokenId, _fractionAmount);
+}
